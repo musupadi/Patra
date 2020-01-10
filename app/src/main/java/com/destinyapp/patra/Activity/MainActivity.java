@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import com.destinyapp.patra.Model.Method;
 import com.destinyapp.patra.R;
 import com.destinyapp.patra.SharedPreferance.DB_Helper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,9 +31,10 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     DB_Helper dbHelper = new DB_Helper(MainActivity.this);
-    String id,email,username,name,avatar;
+    String uuid,id,email,username,name,avatar;
     private AppBarConfiguration mAppBarConfiguration;
     TextView navUsername,navName;
+    Method method = new Method();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +66,12 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = dbHelper.checkSession();
         if (cursor.getCount()>0){
             while (cursor.moveToNext()){
-                id = cursor.getString(0);
-                email = cursor.getString(1);
-                username = cursor.getString(2);
-                name = cursor.getString(3);
-                avatar = cursor.getString(4);
+                uuid = cursor.getString(0);
+                id = cursor.getString(1);
+                email = cursor.getString(2);
+                username = cursor.getString(3);
+                name = cursor.getString(4);
+                avatar = cursor.getString(5);
             }
         }
         navUsername.setText(email);
@@ -79,9 +84,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            method.logout(MainActivity.this);
+            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+            startActivity(intent);
+            finishAffinity();
+            //ClickListener();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

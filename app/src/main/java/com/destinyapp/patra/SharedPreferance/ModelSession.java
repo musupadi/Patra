@@ -21,21 +21,25 @@ public class ModelSession {
     private String top_secret;
     private String ip_address;
     private String password;
+    private String token;
 
     public ModelSession(){
 
     }
-    public ModelSession(String id,
+    public ModelSession(String random_unik,
+                        String id,
                         String email,
                         String username,
                         String full_name,
-                        String avatar){
+                        String avatar,
+                        String token){
+        this.random_unik=random_unik;
         this.id=id;
         this.email=email;
         this.username=username;
         this.full_name=full_name;
         this.avatar=avatar;
-
+        this.token=token;
     }
 
     public String getId() {
@@ -196,5 +200,13 @@ public class ModelSession {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

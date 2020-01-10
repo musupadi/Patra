@@ -25,12 +25,14 @@ public class SplashActivity extends AppCompatActivity {
                 name = cursor.getString(3);
                 avatar = cursor.getString(4);
             }
+            finishAffinity();
             Intent intent = new Intent(SplashActivity.this,MainActivity.class);
             startActivity(intent);
         }else{
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
+                    finishAffinity();
                     Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
                     startActivity(intent);
                 }

@@ -123,8 +123,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.body() !=null){
                     ResponseModel responseModel = response.body();
 //                    Toast.makeText(LoginActivity.this, responseModel.data.full_name, Toast.LENGTH_SHORT).show();
-                    ModelSession session = new ModelSession(responseModel.data.id,responseModel.data.email,responseModel.data.username,responseModel.data.full_name,responseModel.data.avatar);
+                    ModelSession session = new ModelSession(responseModel.data.random_unik,responseModel.data.id,responseModel.data.email,responseModel.data.username,responseModel.data.full_name,responseModel.data.avatar,responseModel.token);
                     dbHelper.saveSession(session);
+                    finishAffinity();
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                 }else{

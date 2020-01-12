@@ -7,7 +7,16 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_loop="true"
+        app:lottie_fileName="blue wave.json"
+        app:lottie_autoPlay="true"
+        android:id="@+id/loading"
+        android:scaleType="fitXY">
 
+    </com.airbnb.lottie.LottieAnimationView>
     <include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"

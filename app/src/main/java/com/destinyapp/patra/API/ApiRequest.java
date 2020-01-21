@@ -78,4 +78,17 @@ public interface ApiRequest {
                                         @Header("Content-Type") String contentType,
                                         @Field("nama_depot") String nama_depot,
                                         @Field("side_supervisor") String side_supervisor);
+
+    @FormUrlEncoded
+    @POST("patra_profile/add")
+    Call<ResponseModel> EditData(@Header("x-api-key") String xApiKey,
+                                 @Header("x-token") String xToken,
+                                 @Header("Content-Type") String contentType,
+                                 @Field("uuid") String uuid,
+                                 @Field("email") String email,
+                                 @Field("hp") String hp,
+                                 @Field("ktp") String ktp,
+                                 @Field("jabatan") String jabatan,
+                                 @Field("nama") String nama,
+                                 @Field("tanggal_lahir") String tanggal_lahir);
 }

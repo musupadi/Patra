@@ -94,6 +94,9 @@ public class Data {
     @SerializedName("patra_depot")
     List<PatraDepot> patra_depot;
 
+    @SerializedName("patra_profile")
+    List<PatraProfile> patra_profile;
+
 
     public List<PatraProject> getPatraProject() {
         return patraProject;
@@ -125,5 +128,13 @@ public class Data {
 
     public void setPatra_depot(List<PatraDepot> patra_depot) {
         this.patra_depot = patra_depot;
+    }
+
+    public List<PatraProfile> getPatra_profile() {
+        return patra_profile;
+    }
+
+    public void setPatra_profile(List<PatraProfile> patra_profile) {
+        this.patra_profile = patra_profile;
     }
 }

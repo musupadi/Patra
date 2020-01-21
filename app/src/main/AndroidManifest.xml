@@ -14,10 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.EditAccountActivity"></activity>
         <activity
             android:name=".Activity.AccountActivity"
             android:parentActivityName=".Activity.MainActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.MainActivity"
             android:label="PT Patra"

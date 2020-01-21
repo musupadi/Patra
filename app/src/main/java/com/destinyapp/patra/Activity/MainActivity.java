@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
+
+import com.destinyapp.patra.Activity.ui.project.ProjectFragment;
 import com.destinyapp.patra.Model.Method;
 import com.destinyapp.patra.R;
 import com.destinyapp.patra.SharedPreferance.DB_Helper;
@@ -14,6 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     String uuid,id,email,username,name,avatar;
     private AppBarConfiguration mAppBarConfiguration;
     TextView navUsername,navName;
+    ImageView navImage;
     Method method = new Method();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,28 +48,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_acccount)
+                R.id.nav_project, R.id.nav_marketing, R.id.nav_site_supervisor,
+                R.id.nav_depot, R.id.nav_produk, R.id.nav_rekanan,R.id.nav_tarif)
                 .setDrawerLayout(drawer)
                 .build();
 
         View headerView = navigationView.getHeaderView(0);
         navUsername = (TextView) headerView.findViewById(R.id.nav_username);
         navName = (TextView)headerView.findViewById(R.id.nav_name);
-
+        navImage = headerView.findViewById(R.id.nav_image);
         Cursor cursor = dbHelper.checkSession();
         if (cursor.getCount()>0){
             while (cursor.moveToNext()){
@@ -77,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
         navUsername.setText(email);
         navName.setText(name);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,AccountActivity.class);
+                startActivity(intent);
+            }
+        });
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
@@ -108,4 +122,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }

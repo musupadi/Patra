@@ -3,6 +3,8 @@ package com.destinyapp.patra.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Data {
     @SerializedName("id")
     @Expose
@@ -79,4 +81,49 @@ public class Data {
     @SerializedName("ip_address")
     @Expose
     public String ip_address;
+
+    @SerializedName("patra_project")
+    List<PatraProject> patraProject;
+
+    @SerializedName("patra_marketing")
+    List<PatraMarketing> patraMarketing;
+
+    @SerializedName("patra_side_supervisor")
+    List<PatraSupervisor> patra_side_supervisor;
+
+    @SerializedName("patra_depot")
+    List<PatraDepot> patra_depot;
+
+
+    public List<PatraProject> getPatraProject() {
+        return patraProject;
+    }
+
+    public void setPatraProject(List<PatraProject> patraProject) {
+        this.patraProject = patraProject;
+    }
+
+    public List<PatraMarketing> getPatraMarketing() {
+        return patraMarketing;
+    }
+
+    public void setPatraMarketing(List<PatraMarketing> patraMarketing) {
+        this.patraMarketing = patraMarketing;
+    }
+
+    public List<PatraSupervisor> getPatra_side_supervisor() {
+        return patra_side_supervisor;
+    }
+
+    public void setPatra_side_supervisor(List<PatraSupervisor> patra_side_supervisor) {
+        this.patra_side_supervisor = patra_side_supervisor;
+    }
+
+    public List<PatraDepot> getPatra_depot() {
+        return patra_depot;
+    }
+
+    public void setPatra_depot(List<PatraDepot> patra_depot) {
+        this.patra_depot = patra_depot;
+    }
 }

@@ -1,18 +1,15 @@
-package com.destinyapp.patra.Activity.ui.account;
+package com.destinyapp.patra.Activity.ui.rekanan;
 
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.destinyapp.patra.API.ApiRequest;
 import com.destinyapp.patra.API.RetroServer;
@@ -24,14 +21,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountFragment extends Fragment {
-
-
+public class RekananFragment extends Fragment {
 
     String uuid,id,email,username,name,avatar,token;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_account, container, false);
+        View root = inflater.inflate(R.layout.fragment_rekanan, container, false);
         return root;
     }
 

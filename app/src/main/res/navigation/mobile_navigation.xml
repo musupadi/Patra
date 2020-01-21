@@ -3,41 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_project">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.destinyapp.patra.Activity.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_project"
+        android:name="com.destinyapp.patra.Activity.ui.project.ProjectFragment"
+        android:label="@string/menu_project"
+        tools:layout="@layout/fragment_project" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.destinyapp.patra.Activity.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_marketing"
+        android:name="com.destinyapp.patra.Activity.ui.marketing.MarketingFragment"
+        android:label="@string/menu_marketing"
+        tools:layout="@layout/fragment_marketing" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.destinyapp.patra.Activity.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_site_supervisor"
+        android:name="com.destinyapp.patra.Activity.ui.sitesupervisor.SiteSupervisorFragment"
+        android:label="@string/menu_site_supervisor"
+        tools:layout="@layout/fragment_sitesupervisor" />
 
     <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.destinyapp.patra.Activity.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+        android:id="@+id/nav_depot"
+        android:name="com.destinyapp.patra.Activity.ui.depot.DepotFragment"
+        android:label="@string/menu_depot"
+        tools:layout="@layout/fragment_depot" />
 
     <fragment
-        android:id="@+id/nav_share"
-        android:name="com.destinyapp.patra.Activity.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        android:id="@+id/nav_produk"
+        android:name="com.destinyapp.patra.Activity.ui.produk.ProdukFragment"
+        android:label="@string/menu_rekanan"
+        tools:layout="@layout/fragment_produk" />
 
     <fragment
-        android:id="@+id/nav_acccount"
-        android:name="com.destinyapp.patra.Activity.ui.account.AccountFragment"
-        android:label="@string/menu_account"
-        tools:layout="@layout/fragment_account" />
+        android:id="@+id/nav_rekanan"
+        android:name="com.destinyapp.patra.Activity.ui.rekanan.RekananFragment"
+        android:label="@string/menu_rekanan"
+        tools:layout="@layout/fragment_rekanan" />
+
+    <fragment
+        android:id="@+id/nav_tarif"
+        android:name="com.destinyapp.patra.Activity.ui.tarif.TarifFragment"
+        android:label="@string/menu_tarif"
+        tools:layout="@layout/fragment_tarif" />
 </navigation>

@@ -33,4 +33,10 @@ public class Method {
         AlertDialog alert = builder.create();
         alert.show();
     }
+    public void AutoLogout(Context ctx){
+        Intent intent = new Intent(ctx, LoginActivity.class);
+        DB_Helper dbHelper = new DB_Helper(ctx);
+        dbHelper.userLogout(ctx);
+        ctx.startActivity(intent);
+    }
 }

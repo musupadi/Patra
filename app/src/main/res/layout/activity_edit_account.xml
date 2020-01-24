@@ -116,7 +116,7 @@
                 android:text="Pilih Tanggal Lahir"
                 android:id="@+id/btnTglLahir"
                 android:textColor="@color/colorWhite"
-                android:background="@drawable/button_primary_rounded"/>
+                android:background="@color/colorPrimary"/>
             <TextView
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -133,7 +133,7 @@
                 android:id="@+id/btnSimpan"
                 android:text="Simpan"
                 android:textColor="@color/colorWhite"
-                android:background="@drawable/button_primary_rounded"/>
+                android:background="@color/colorPrimary"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

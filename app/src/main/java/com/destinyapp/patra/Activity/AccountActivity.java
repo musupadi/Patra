@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.destinyapp.patra.API.ApiRequest;
 import com.destinyapp.patra.API.RetroServer;
+import com.destinyapp.patra.Model.Method;
 import com.destinyapp.patra.Model.PatraProfile;
 import com.destinyapp.patra.Model.ResponseModel;
 import com.destinyapp.patra.R;
@@ -29,6 +30,7 @@ public class AccountActivity extends AppCompatActivity {
     TextView headerNama,headerJabatan,nama,jabatan,Email,KTP,HP,tanggal_lahir;
     List<PatraProfile> mItems = new ArrayList<>();
     Button EditAccount;
+    Method method = new Method();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,15 +76,20 @@ public class AccountActivity extends AppCompatActivity {
         getData.enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                mItems=response.body().data.getPatra_profile();
-                headerNama.setText(mItems.get(0).nama);
-                headerJabatan.setText(mItems.get(0).jabatan);
-                nama.setText(mItems.get(0).nama);
-                jabatan.setText(mItems.get(0).jabatan);
-                Email.setText(mItems.get(0).email);
-                KTP.setText(mItems.get(0).ktp);
-                HP.setText(mItems.get(0).hp);
-                tanggal_lahir.setText(mItems.get(0).tanggal_lahir);
+                try {
+                    mItems=response.body().data.getPatra_profile();
+                    headerNama.setText(mItems.get(0).nama);
+                    headerJabatan.setText(mItems.get(0).jabatan);
+                    nama.setText(mItems.get(0).nama);
+                    jabatan.setText(mItems.get(0).jabatan);
+                    Email.setText(mItems.get(0).email);
+                    KTP.setText(mItems.get(0).ktp);
+                    HP.setText(mItems.get(0).hp);
+                    tanggal_lahir.setText(mItems.get(0).tanggal_lahir);
+                }catch (Exception e){
+                    Toast.makeText(AccountActivity.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(AccountActivity.this);
+                }
             }
 
             @Override

@@ -29,6 +29,7 @@ import com.destinyapp.patra.Adapter.AdapterProject;
 import com.destinyapp.patra.Adapter.AdapterSiteSupervisor;
 import com.destinyapp.patra.Adapter.SpinnerAdapterMarketing;
 import com.destinyapp.patra.Adapter.SpinnerAdapterProject;
+import com.destinyapp.patra.Model.Method;
 import com.destinyapp.patra.Model.PatraMarketing;
 import com.destinyapp.patra.Model.PatraProject;
 import com.destinyapp.patra.Model.PatraSupervisor;
@@ -58,7 +59,7 @@ public class SiteSupervisorFragment extends Fragment {
     Button submit;
     FloatingActionButton fabAdd;
     TextView ids;
-
+    Method method = new Method();
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_sitesupervisor, container, false);
@@ -134,9 +135,14 @@ public class SiteSupervisorFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 pd.hide();
-                Toast.makeText(getActivity(), response.body().message, Toast.LENGTH_SHORT).show();
-                myDialog.hide();
-                Logic();
+                try {
+                    Toast.makeText(getActivity(), response.body().message, Toast.LENGTH_SHORT).show();
+                    myDialog.hide();
+                    Logic();
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(getActivity());
+                }
             }
 
             @Override
@@ -156,9 +162,14 @@ public class SiteSupervisorFragment extends Fragment {
         project.enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                mItemss=response.body().data.getPatraMarketing();
-                SpinnerAdapterMarketing adapter = new SpinnerAdapterMarketing(getActivity(),mItemss);
-                spinner.setAdapter(adapter);
+                try {
+                    mItemss=response.body().data.getPatraMarketing();
+                    SpinnerAdapterMarketing adapter = new SpinnerAdapterMarketing(getActivity(),mItemss);
+                    spinner.setAdapter(adapter);
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(getActivity());
+                }
             }
 
             @Override
@@ -183,9 +194,14 @@ public class SiteSupervisorFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 pd.hide();
-                mItems =response.body().data.getPatra_side_supervisor();
-                AdapterSiteSupervisor adapter = new AdapterSiteSupervisor(getActivity(),mItems);
-                recycler.setAdapter(adapter);
+                try {
+                    mItems =response.body().data.getPatra_side_supervisor();
+                    AdapterSiteSupervisor adapter = new AdapterSiteSupervisor(getActivity(),mItems);
+                    recycler.setAdapter(adapter);
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(getActivity());
+                }
             }
 
             @Override

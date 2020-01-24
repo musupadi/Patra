@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Submit"
-                android:background="@drawable/btn_rounded_primary"
+                android:background="@color/colorPrimary"
                 android:textColor="@color/colorWhite"
                 android:layout_margin="10dp"/>
         </LinearLayout>

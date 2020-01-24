@@ -26,6 +26,7 @@ import com.destinyapp.patra.API.RetroServer;
 import com.destinyapp.patra.Activity.AccountActivity;
 import com.destinyapp.patra.Adapter.AdapterProject;
 import com.destinyapp.patra.Model.Data;
+import com.destinyapp.patra.Model.Method;
 import com.destinyapp.patra.Model.PatraProject;
 import com.destinyapp.patra.Model.ResponseModel;
 import com.destinyapp.patra.R;
@@ -48,6 +49,7 @@ public class ProjectFragment extends Fragment {
     EditText NamaProject;
     Button submit;
     FloatingActionButton fabAdd;
+    Method method = new Method();
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_project, container, false);
@@ -106,9 +108,14 @@ public class ProjectFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 pd.hide();
-                Toast.makeText(getActivity(), response.body().message, Toast.LENGTH_SHORT).show();
-                myDialog.hide();
-                Logic();
+                try {
+                    Toast.makeText(getActivity(), response.body().message, Toast.LENGTH_SHORT).show();
+                    myDialog.hide();
+                    Logic();
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(getActivity());
+                }
             }
 
             @Override
@@ -133,9 +140,14 @@ public class ProjectFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 pd.hide();
-                mItems =response.body().data.getPatraProject();
-                AdapterProject adapter = new AdapterProject(getActivity(),mItems);
-                recycler.setAdapter(adapter);
+                try {
+                    mItems =response.body().data.getPatraProject();
+                    AdapterProject adapter = new AdapterProject(getActivity(),mItems);
+                    recycler.setAdapter(adapter);
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(getActivity());
+                }
             }
 
             @Override

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.destinyapp.patra.API.ApiRequest;
 import com.destinyapp.patra.API.RetroServer;
+import com.destinyapp.patra.Model.Method;
 import com.destinyapp.patra.Model.PatraProfile;
 import com.destinyapp.patra.Model.ResponseModel;
 import com.destinyapp.patra.R;
@@ -34,6 +35,7 @@ public class EditAccountActivity extends AppCompatActivity implements DatePicker
     String uuid,id,email,username,name,avatar,token;
     Button simpan,tgl;
     List<PatraProfile> mItems = new ArrayList<>();
+    Method method = new Method();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +98,8 @@ public class EditAccountActivity extends AppCompatActivity implements DatePicker
                     finishAffinity();
                     startActivity(intent);
                 }catch (Exception e){
-                    Toast.makeText(EditAccountActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditAccountActivity.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(EditAccountActivity.this);
                 }
             }
 
@@ -116,13 +119,18 @@ public class EditAccountActivity extends AppCompatActivity implements DatePicker
         getData.enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                mItems=response.body().data.getPatra_profile();
-                nama.setText(mItems.get(0).nama);
-                jabatan.setText(mItems.get(0).jabatan);
-                Email.setText(mItems.get(0).email);
-                ktp.setText(mItems.get(0).ktp);
-                hp.setText(mItems.get(0).hp);
-                tglLahir.setText(mItems.get(0).tanggal_lahir);
+                try {
+                    mItems=response.body().data.getPatra_profile();
+                    nama.setText(mItems.get(0).nama);
+                    jabatan.setText(mItems.get(0).jabatan);
+                    Email.setText(mItems.get(0).email);
+                    ktp.setText(mItems.get(0).ktp);
+                    hp.setText(mItems.get(0).hp);
+                    tglLahir.setText(mItems.get(0).tanggal_lahir);
+                }catch (Exception e){
+                    Toast.makeText(EditAccountActivity.this, "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(EditAccountActivity.this);
+                }
             }
 
             @Override

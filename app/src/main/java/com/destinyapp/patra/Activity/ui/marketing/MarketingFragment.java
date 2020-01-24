@@ -28,6 +28,7 @@ import com.destinyapp.patra.API.RetroServer;
 import com.destinyapp.patra.Adapter.AdapterMarketing;
 import com.destinyapp.patra.Adapter.AdapterProject;
 import com.destinyapp.patra.Adapter.SpinnerAdapterProject;
+import com.destinyapp.patra.Model.Method;
 import com.destinyapp.patra.Model.PatraMarketing;
 import com.destinyapp.patra.Model.PatraProject;
 import com.destinyapp.patra.Model.ResponseModel;
@@ -55,6 +56,7 @@ public class MarketingFragment extends Fragment {
     Button submit;
     FloatingActionButton fabAdd;
     TextView ids;
+    Method method = new Method();
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_marketing, container, false);
@@ -130,9 +132,14 @@ public class MarketingFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 pd.hide();
-                Toast.makeText(getActivity(), response.body().message, Toast.LENGTH_SHORT).show();
-                myDialog.hide();
-                Logic();
+                try {
+                    Toast.makeText(getActivity(), response.body().message, Toast.LENGTH_SHORT).show();
+                    myDialog.hide();
+                    Logic();
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(getActivity());
+                }
             }
 
             @Override
@@ -158,9 +165,15 @@ public class MarketingFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 pd.hide();
-                mItems =response.body().data.getPatraMarketing();
-                AdapterMarketing adapter = new AdapterMarketing(getActivity(),mItems);
-                recycler.setAdapter(adapter);
+                try {
+                    mItems =response.body().data.getPatraMarketing();
+                    AdapterMarketing adapter = new AdapterMarketing(getActivity(),mItems);
+                    recycler.setAdapter(adapter);
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(getActivity());
+                }
+
             }
 
             @Override
@@ -181,9 +194,14 @@ public class MarketingFragment extends Fragment {
         project.enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                mItemss=response.body().data.getPatraProject();
-                SpinnerAdapterProject adapter = new SpinnerAdapterProject(getActivity(),mItemss);
-                spinner.setAdapter(adapter);
+                try {
+                    mItemss=response.body().data.getPatraProject();
+                    SpinnerAdapterProject adapter = new SpinnerAdapterProject(getActivity(),mItemss);
+                    spinner.setAdapter(adapter);
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(getActivity());
+                }
             }
 
             @Override

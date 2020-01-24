@@ -60,6 +60,7 @@ public class AccountActivity extends AppCompatActivity{
     Method method = new Method();
     ImageView profile,profileImageNew;
     Dialog myDialog;
+    String encoded="encoded";
     //Dellaroy Logic
     private static final int REQUEST_TAKE_PHOTO = 0;
     private static final int REQUEST_PICK_PHOTO = 2;
@@ -155,7 +156,7 @@ public class AccountActivity extends AppCompatActivity{
                 token,
                 "application/x-www-form-urlencoded",
                 uuid,
-                encodedImg.getText().toString()
+                encoded
         );
         input.enqueue(new Callback<ResponseModel>() {
             @Override
@@ -194,9 +195,9 @@ public class AccountActivity extends AppCompatActivity{
                 namaImg.setText(mediaPath);
 
                 profileImageNew.setImageBitmap(BitmapFactory.decodeFile(mediaPath));
-//                bitmap= BitmapFactory.decodeFile(mediaPath);
-                bitmap=BitmapFactory.decodeResource(getResources(),R.drawable.background);
-                Toast.makeText(this, method.EncodeBse64(bitmap), Toast.LENGTH_SHORT).show();
+                bitmap= BitmapFactory.decodeFile(mediaPath);
+               // bitmap=BitmapFactory.decodeResource(getResources(),R.drawable.background);
+                encoded=method.EncodeBse64(mediaPath);
             }
         }
     }
@@ -247,7 +248,7 @@ public class AccountActivity extends AppCompatActivity{
                     KTP.setText(mItems.get(0).ktp);
                     HP.setText(mItems.get(0).hp);
                     tanggal_lahir.setText(mItems.get(0).tanggal_lahir);
-//                    method.DecodeBase64(mItems.get(0).photo,profile);
+                    method.DecodeBase64(mItems.get(0).photo,profile);
                 }catch (Exception e){
                     Toast.makeText(AccountActivity.this, "Token Expired", Toast.LENGTH_SHORT).show();
                     method.AutoLogout(AccountActivity.this);

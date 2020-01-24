@@ -7,12 +7,15 @@
         <item
             android:id="@+id/nav_project"
             android:icon="@drawable/ic_menu_camera"
+            android:fontFamily="@font/gotham"
             android:title="@string/menu_project" />
         <item
+            android:fontFamily="@font/gotham"
             android:id="@+id/nav_marketing"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_marketing" />
         <item
+            android:fontFamily="@font/gotham"
             android:id="@+id/nav_site_supervisor"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_site_supervisor" />
@@ -22,15 +25,18 @@
             android:title="@string/menu_depot" />
 
         <item
+            android:fontFamily="@font/gotham"
             android:id="@+id/nav_produk"
             android:icon="@drawable/ic_menu_share"
             android:title="@string/menu_produk" />
         <item
+            android:fontFamily="@font/gotham"
             android:id="@+id/nav_rekanan"
             android:icon="@drawable/ic_menu_send"
             android:title="@string/menu_rekanan" />
 
         <item
+            android:fontFamily="@font/gotham"
             android:id="@+id/nav_tarif"
             android:icon="@drawable/ic_menu_send"
             android:title="@string/menu_tarif" />

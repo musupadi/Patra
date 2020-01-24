@@ -7,11 +7,13 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center">
     <LinearLayout
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="10dp">
         <TextView
+            android:fontFamily="@font/gotham"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Foto Profil"
@@ -22,12 +24,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
+                android:fontFamily="@font/gotham"
                 android:id="@+id/btnBrowse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="BROWSE"
                 android:layout_weight="2"/>
             <TextView
+                android:fontFamily="@font/gotham"
                 android:id="@+id/tvNamaFile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,9 +49,10 @@
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/ic_menu_camera"
             android:scaleType="fitXY"/>
         <Button
+            android:fontFamily="@font/gotham"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Upload"

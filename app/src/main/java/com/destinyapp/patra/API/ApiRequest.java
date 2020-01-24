@@ -80,6 +80,14 @@ public interface ApiRequest {
                                         @Field("side_supervisor") String side_supervisor);
 
     @FormUrlEncoded
+    @POST("patra_profile_picture/add")
+    Call<ResponseModel> UploadImage(@Header("x-api-key") String xApiKey,
+                                   @Header("x-token") String xToken,
+                                   @Header("Content-Type") String contentType,
+                                   @Field("user_uuid") String user_uuid,
+                                    @Field("photo") String photo);
+
+    @FormUrlEncoded
     @POST("patra_profile/add")
     Call<ResponseModel> EditData(@Header("x-api-key") String xApiKey,
                                  @Header("x-token") String xToken,

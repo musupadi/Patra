@@ -1,5 +1,6 @@
 package com.destinyapp.patra.Activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -34,6 +35,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity {
     DB_Helper dbHelper = new DB_Helper(MainActivity.this);
@@ -42,12 +46,21 @@ public class MainActivity extends AppCompatActivity {
     TextView navUsername,navName;
     ImageView navImage;
     Method method = new Method();
+    private String[] galleryPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (EasyPermissions.hasPermissions(MainActivity.this, galleryPermissions)) {
+            Toast.makeText(this, "Permission Succes", Toast.LENGTH_SHORT).show();
+        } else {
+            EasyPermissions.requestPermissions(MainActivity.this, "Access for storage",
+                    101, galleryPermissions);
+        }
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override

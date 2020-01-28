@@ -53,12 +53,13 @@ public class Method {
         ctx.startActivity(intent);
     }
 
-    public String EncodeBse64(Bitmap bitmap){
+    public String EncodeBse64(String path){
+        Bitmap bm = BitmapFactory.decodeFile(path);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
         byte[] b = baos.toByteArray();
-        String encodeImage = Base64.encodeToString(b,Base64.DEFAULT);
-        return encodeImage;
+        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+        return encodedImage;
     }
 //    public String EncodeBase64(final Bitmap bitmap,final TextView tv){
 //        String encoded;

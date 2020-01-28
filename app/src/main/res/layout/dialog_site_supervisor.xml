@@ -3,14 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="350dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center">
     <LinearLayout
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,6 +22,7 @@
                 android:id="@+id/tvID"
                 android:textSize="0.0001sp"/>
             <TextView
+                android:fontFamily="@font/gotham"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Pilih Nama Marketing"
@@ -31,8 +33,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/Spinner"/>
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
@@ -40,6 +40,7 @@
                 android:textColorHint="@color/colorAccent"
                 card_view:passwordToggleEnabled="true">
                 <EditText
+                    android:fontFamily="@font/gotham"
                     android:id="@+id/etSiteSupervisor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -49,13 +50,14 @@
                     android:textSize="20sp"/>
             </com.google.android.material.textfield.TextInputLayout>
             <Button
+                android:fontFamily="@font/gotham"
+                android:layout_marginTop="10dp"
                 android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Submit"
                 android:background="@color/colorPrimary"
-                android:textColor="@color/colorWhite"
-                android:layout_margin="10dp"/>
+                android:textColor="@color/colorWhite" />
         </LinearLayout>
     </LinearLayout>
 

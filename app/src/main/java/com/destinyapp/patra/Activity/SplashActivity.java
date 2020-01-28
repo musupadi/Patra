@@ -26,8 +26,9 @@ public class SplashActivity extends AppCompatActivity {
                 avatar = cursor.getString(4);
             }
             finishAffinity();
-            Intent intent = new Intent(SplashActivity.this,MainActivity.class);
-            startActivity(intent);
+            Intent goInput = new Intent(SplashActivity.this, MainActivity.class);
+            goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_project));
+            startActivity(goInput);
         }else{
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {

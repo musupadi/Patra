@@ -88,7 +88,7 @@ public interface ApiRequest {
                                     @Field("photo") String photo);
 
     @FormUrlEncoded
-    @POST("patra_profile/add")
+    @POST("patra_project/delete")
     Call<ResponseModel> EditData(@Header("x-api-key") String xApiKey,
                                  @Header("x-token") String xToken,
                                  @Header("Content-Type") String contentType,
@@ -99,4 +99,33 @@ public interface ApiRequest {
                                  @Field("jabatan") String jabatan,
                                  @Field("nama") String nama,
                                  @Field("tanggal_lahir") String tanggal_lahir);
+
+    //Delete
+    @FormUrlEncoded
+    @POST("patra_project/delete")
+    Call<ResponseModel> DeleteProject(@Header("x-api-key") String xApiKey,
+                                    @Header("x-token") String xToken,
+                                    @Header("Content-Type") String contentType,
+                                    @Field("id") String id);
+
+    @FormUrlEncoded
+    @POST("patra_marketing/delete")
+    Call<ResponseModel> DeleteMarketing(@Header("x-api-key") String xApiKey,
+                                      @Header("x-token") String xToken,
+                                      @Header("Content-Type") String contentType,
+                                      @Field("id") String id);
+
+    @FormUrlEncoded
+    @POST("patra_side_supervisor/delete")
+    Call<ResponseModel> DeleteSupervisor(@Header("x-api-key") String xApiKey,
+                                      @Header("x-token") String xToken,
+                                      @Header("Content-Type") String contentType,
+                                      @Field("id") String id);
+
+    @FormUrlEncoded
+    @POST("patra_depot/delete")
+    Call<ResponseModel> DeleteDepot(@Header("x-api-key") String xApiKey,
+                                         @Header("x-token") String xToken,
+                                         @Header("Content-Type") String contentType,
+                                         @Field("id") String id);
 }

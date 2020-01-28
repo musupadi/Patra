@@ -104,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Intent data = getIntent();
+        String NAVIGATE = data.getStringExtra("NAVIGATE");
+        navController.navigate(Integer.parseInt(NAVIGATE));
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }

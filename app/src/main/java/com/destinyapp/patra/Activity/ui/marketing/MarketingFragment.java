@@ -69,8 +69,9 @@ public class MarketingFragment extends Fragment {
         myDialog = new Dialog(getActivity());
         myDialog.setContentView(R.layout.dialog_marketing_add);
         ids=myDialog.findViewById(R.id.tvID);
-        NamaMarketing=myDialog.findViewById(R.id.etMarketing);
         spinner=myDialog.findViewById(R.id.Spinner);
+        NamaMarketing=myDialog.findViewById(R.id.etMarketing);
+
         submit=myDialog.findViewById(R.id.btnSubmit);
         recycler=view.findViewById(R.id.recycler);
         fabAdd=view.findViewById(R.id.fabPlus);

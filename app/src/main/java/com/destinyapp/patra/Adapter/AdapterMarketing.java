@@ -8,10 +8,13 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,10 +42,15 @@ public class AdapterMarketing extends RecyclerView.Adapter<AdapterMarketing.Hold
     private List<PatraMarketing> mList;
     private List<PatraMarketing> mListFull;
     private Context ctx;
-    Dialog myDialog;
+    Dialog myDialog,DialogEdit;
+    private List<PatraProject> mItemss = new ArrayList<>();
     String uuid,id,email,username,name,avatar,token;
+    Spinner spinner;
     Method method = new Method();
     Button edit,delete;
+    EditText nama;
+    Button submit;
+    TextView ids;
     public AdapterMarketing(Context ctx, List<PatraMarketing> mList){
         this.ctx = ctx;
         this.mList = mList;
@@ -63,8 +71,14 @@ public class AdapterMarketing extends RecyclerView.Adapter<AdapterMarketing.Hold
         holderData.nama.setText(dm.nama_mor);
         myDialog = new Dialog(ctx);
         myDialog.setContentView(R.layout.dialog_pilihan);
+        DialogEdit = new Dialog(ctx);
+        DialogEdit.setContentView(R.layout.dialog_marketing_add);
         edit = myDialog.findViewById(R.id.btnEdit);
         delete = myDialog.findViewById(R.id.btnDelete);
+        ids=DialogEdit.findViewById(R.id.tvID);
+        spinner=DialogEdit.findViewById(R.id.Spinner);
+        nama=DialogEdit.findViewById(R.id.etMarketing);
+        submit=DialogEdit.findViewById(R.id.btnSubmit);
         DB_Helper dbHelper=new DB_Helper(ctx);
         Cursor cursor = dbHelper.checkSession();
         if (cursor.getCount()>0){
@@ -78,6 +92,7 @@ public class AdapterMarketing extends RecyclerView.Adapter<AdapterMarketing.Hold
                 token = cursor.getString(6);
             }
         }
+        getSpinner();
         holderData.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +101,32 @@ public class AdapterMarketing extends RecyclerView.Adapter<AdapterMarketing.Hold
                     @Override
                     public void onClick(View v) {
                         LogicDelete(dm.id);
+                    }
+                });
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myDialog.hide();
+                        DialogEdit.show();
+                        nama.setText(dm.nama_mor);
+                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                PatraProject clickedItem = (PatraProject)parent.getItemAtPosition(position);
+                                ids.setText(clickedItem.id);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+                        submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UpdateData(dm.id,nama.getText().toString(),ids.getText().toString());
+                            }
+                        });
                     }
                 });
             }
@@ -144,6 +185,68 @@ public class AdapterMarketing extends RecyclerView.Adapter<AdapterMarketing.Hold
             notifyDataSetChanged();
         }
     };
+
+    private void getSpinner(){
+        ApiRequest api = RetroServer.getClient().create(ApiRequest.class);
+        Call<ResponseModel> project = api.AllProject("3899CE8456DEE44F894044EDB678969F",
+                token,
+                "application/x-www-form-urlencoded",
+                uuid);
+        project.enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                try {
+                    mItemss=response.body().data.getPatraProject();
+                    SpinnerAdapterProject adapter = new SpinnerAdapterProject(ctx,mItemss);
+                    spinner.setAdapter(adapter);
+                }catch (Exception e){
+                    Toast.makeText(ctx, "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(ctx);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                Toast.makeText(ctx, "Koneksi Gagal", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void UpdateData(String ID,String nama,String IDProject){
+        final ProgressDialog pd = new ProgressDialog(ctx);
+        pd.setMessage("Sedang Mencoba Mengupdate Data");
+        pd.setCancelable(false);
+        pd.show();
+        ApiRequest api = RetroServer.getClient().create(ApiRequest.class);
+        Call<ResponseModel> input = api.UpdateMarketing("3899CE8456DEE44F894044EDB678969F",
+                token,
+                "application/x-www-form-urlencoded",
+                ID,
+                nama,
+                IDProject
+        );
+        input.enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                pd.hide();
+                try {
+                    Toast.makeText(ctx, response.body().message, Toast.LENGTH_SHORT).show();
+                    myDialog.hide();
+                    Intent goInput = new Intent(ctx, MainActivity.class);
+                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_marketing));
+                    ctx.startActivity(goInput);
+                }catch (Exception e){
+                    Toast.makeText(ctx, "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(ctx);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                pd.hide();
+                Toast.makeText(ctx, "Koneksi Gagal", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void LogicDelete(String ID){
         final ProgressDialog pd = new ProgressDialog(ctx);
         pd.setMessage("Sedang Mencoba Menghapus Data");

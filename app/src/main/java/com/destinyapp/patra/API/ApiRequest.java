@@ -128,4 +128,41 @@ public interface ApiRequest {
                                          @Header("x-token") String xToken,
                                          @Header("Content-Type") String contentType,
                                          @Field("id") String id);
+
+    //UPDATE
+    @FormUrlEncoded
+    @POST("patra_project/update")
+    Call<ResponseModel> UpdateProject(@Header("x-api-key") String xApiKey,
+                                      @Header("x-token") String xToken,
+                                      @Header("Content-Type") String contentType,
+                                      @Field("id") String id,
+                                      @Field("nama_project") String nama_project);
+
+    @FormUrlEncoded
+    @POST("patra_marketing/update")
+    Call<ResponseModel> UpdateMarketing(@Header("x-api-key") String xApiKey,
+                                        @Header("x-token") String xToken,
+                                        @Header("Content-Type") String contentType,
+                                        @Field("id") String id,
+                                        @Field("nama_mor") String nama_mor,
+                                        @Field("project_id") String project_id);
+
+    @FormUrlEncoded
+    @POST("patra_side_supervisor/update")
+    Call<ResponseModel> UpdateSupervisor(@Header("x-api-key") String xApiKey,
+                                        @Header("x-token") String xToken,
+                                        @Header("Content-Type") String contentType,
+                                        @Field("id") String id,
+                                        @Field("nama_ss") String nama_ss,
+                                        @Field("marketing_id") String marketing_id);
+
+    @FormUrlEncoded
+    @POST("patra_depot/update")
+    Call<ResponseModel> UpdateDepot(@Header("x-api-key") String xApiKey,
+                                         @Header("x-token") String xToken,
+                                         @Header("Content-Type") String contentType,
+                                         @Field("id") String id,
+                                         @Field("nama_depot") String nama_depot,
+                                         @Field("side_supervisor") String side_supervisor);
+
 }

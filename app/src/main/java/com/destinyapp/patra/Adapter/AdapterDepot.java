@@ -8,10 +8,13 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ import com.destinyapp.patra.Activity.MainActivity;
 import com.destinyapp.patra.Model.Method;
 import com.destinyapp.patra.Model.PatraDepot;
 import com.destinyapp.patra.Model.PatraMarketing;
+import com.destinyapp.patra.Model.PatraSupervisor;
 import com.destinyapp.patra.Model.ResponseModel;
 import com.destinyapp.patra.R;
 import com.destinyapp.patra.SharedPreferance.DB_Helper;
@@ -38,11 +42,16 @@ import retrofit2.Response;
 public class AdapterDepot extends RecyclerView.Adapter<AdapterDepot.HolderData> implements Filterable {
     private List<PatraDepot> mList;
     private List<PatraDepot> mListFull;
+    private List<PatraSupervisor> mItemss = new ArrayList<>();
     private Context ctx;
-    Dialog myDialog;
+    Dialog myDialog,DialogEdit;
     Button edit,delete;
     String uuid,id,email,username,name,avatar,token;
     Method method = new Method();
+    Spinner spinner;
+    EditText nama;
+    Button submit;
+    TextView ids;
     public AdapterDepot(Context ctx, List<PatraDepot> mList){
         this.ctx = ctx;
         this.mList = mList;
@@ -63,8 +72,15 @@ public class AdapterDepot extends RecyclerView.Adapter<AdapterDepot.HolderData> 
         holderData.nama.setText(dm.nama_depot);
         myDialog = new Dialog(ctx);
         myDialog.setContentView(R.layout.dialog_pilihan);
+        DialogEdit = new Dialog(ctx);
+        DialogEdit.setContentView(R.layout.dialog_depot);
         edit = myDialog.findViewById(R.id.btnEdit);
         delete = myDialog.findViewById(R.id.btnDelete);
+        ids=DialogEdit.findViewById(R.id.tvID);
+        spinner=DialogEdit.findViewById(R.id.Spinner);
+        nama=DialogEdit.findViewById(R.id.etDepot);
+        submit=DialogEdit.findViewById(R.id.btnSubmit);
+
         DB_Helper dbHelper=new DB_Helper(ctx);
         Cursor cursor = dbHelper.checkSession();
         if (cursor.getCount()>0){
@@ -78,6 +94,7 @@ public class AdapterDepot extends RecyclerView.Adapter<AdapterDepot.HolderData> 
                 token = cursor.getString(6);
             }
         }
+        getSpinner();
         holderData.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +103,32 @@ public class AdapterDepot extends RecyclerView.Adapter<AdapterDepot.HolderData> 
                     @Override
                     public void onClick(View v) {
                         LogicDelete(dm.id);
+                    }
+                });
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myDialog.hide();
+                        DialogEdit.show();
+                        nama.setText(dm.nama_depot);
+                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                PatraSupervisor clickedItem = (PatraSupervisor) parent.getItemAtPosition(position);
+                                ids.setText(clickedItem.id);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+                        submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UpdateData(dm.id,nama.getText().toString(),ids.getText().toString());
+                            }
+                        });
                     }
                 });
             }
@@ -155,6 +198,67 @@ public class AdapterDepot extends RecyclerView.Adapter<AdapterDepot.HolderData> 
                 token,
                 "application/x-www-form-urlencoded",
                 ID
+        );
+        input.enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                pd.hide();
+                try {
+                    Toast.makeText(ctx, response.body().message, Toast.LENGTH_SHORT).show();
+                    myDialog.hide();
+                    Intent goInput = new Intent(ctx, MainActivity.class);
+                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_depot));
+                    ctx.startActivity(goInput);
+                }catch (Exception e){
+                    Toast.makeText(ctx, "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(ctx);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                pd.hide();
+                Toast.makeText(ctx, "Koneksi Gagal", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void getSpinner(){
+        ApiRequest api = RetroServer.getClient().create(ApiRequest.class);
+        Call<ResponseModel> project = api.AllSiteSupervisor("3899CE8456DEE44F894044EDB678969F",
+                token,
+                "application/x-www-form-urlencoded",
+                uuid);
+        project.enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                try {
+                    mItemss=response.body().data.getPatra_side_supervisor();
+                    SpinnerAdapterSupervisor adapter = new SpinnerAdapterSupervisor(ctx,mItemss);
+                    spinner.setAdapter(adapter);
+                }catch (Exception e){
+                    Toast.makeText(ctx, "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(ctx);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                Toast.makeText(ctx, "Koneksi Gagal", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void UpdateData(String ID,String nama,String IDSupervisor){
+        final ProgressDialog pd = new ProgressDialog(ctx);
+        pd.setMessage("Sedang Mencoba Mengupdate Data");
+        pd.setCancelable(false);
+        pd.show();
+        ApiRequest api = RetroServer.getClient().create(ApiRequest.class);
+        Call<ResponseModel> input = api.UpdateDepot("3899CE8456DEE44F894044EDB678969F",
+                token,
+                "application/x-www-form-urlencoded",
+                ID,
+                nama,
+                IDSupervisor
         );
         input.enqueue(new Callback<ResponseModel>() {
             @Override

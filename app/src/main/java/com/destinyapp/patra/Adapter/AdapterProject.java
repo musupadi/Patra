@@ -48,9 +48,12 @@ public class AdapterProject extends RecyclerView.Adapter<AdapterProject.HolderDa
     private List<PatraProject> mListFull;
     private Context ctx;
     Dialog myDialog;
+    Dialog DialogEdit;
     String uuid,id,email,username,name,avatar,token;
     Method method = new Method();
     Button edit,delete;
+    EditText nama;
+    Button submit;
     public AdapterProject(Context ctx, List<PatraProject> mList){
         this.ctx = ctx;
         this.mList = mList;
@@ -70,7 +73,10 @@ public class AdapterProject extends RecyclerView.Adapter<AdapterProject.HolderDa
         final PatraProject dm = mList.get(posistion);
         myDialog = new Dialog(ctx);
         myDialog.setContentView(R.layout.dialog_pilihan);
-
+        DialogEdit = new Dialog(ctx);
+        DialogEdit.setContentView(R.layout.dialog_project_add);
+        nama = DialogEdit.findViewById(R.id.etProject);
+        submit = DialogEdit.findViewById(R.id.btnSubmit);
         DB_Helper dbHelper=new DB_Helper(ctx);
         Cursor cursor = dbHelper.checkSession();
         if (cursor.getCount()>0){
@@ -96,6 +102,20 @@ public class AdapterProject extends RecyclerView.Adapter<AdapterProject.HolderDa
                     public void onClick(View v) {
                         LogicDelete(dm.id);
 
+                    }
+                });
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myDialog.hide();
+                        DialogEdit.show();
+                        nama.setText(dm.nama_project);
+                        submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UpdateData(dm.id,nama.getText().toString());
+                            }
+                        });
                     }
                 });
             }
@@ -156,6 +176,41 @@ public class AdapterProject extends RecyclerView.Adapter<AdapterProject.HolderDa
         }
     };
 
+    private void UpdateData(String ID,String nama){
+        final ProgressDialog pd = new ProgressDialog(ctx);
+        pd.setMessage("Sedang Mencoba Mengupdate Data");
+        pd.setCancelable(false);
+        pd.show();
+        ApiRequest api = RetroServer.getClient().create(ApiRequest.class);
+        Call<ResponseModel> input = api.UpdateProject("3899CE8456DEE44F894044EDB678969F",
+                token,
+                "application/x-www-form-urlencoded",
+                ID,
+                nama
+        );
+        input.enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                pd.hide();
+                try {
+                    Toast.makeText(ctx, response.body().message, Toast.LENGTH_SHORT).show();
+                    myDialog.hide();
+                    Intent goInput = new Intent(ctx, MainActivity.class);
+                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_project));
+                    ctx.startActivity(goInput);
+                }catch (Exception e){
+                    Toast.makeText(ctx, "Token Expired", Toast.LENGTH_SHORT).show();
+                    method.AutoLogout(ctx);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                pd.hide();
+                Toast.makeText(ctx, "Koneksi Gagal", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void LogicDelete(String ID){
         final ProgressDialog pd = new ProgressDialog(ctx);
         pd.setMessage("Sedang Mencoba Menghapus Data");

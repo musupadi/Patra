@@ -94,11 +94,11 @@ public class AdapterDepot extends RecyclerView.Adapter<AdapterDepot.HolderData> 
                 token = cursor.getString(6);
             }
         }
-        getSpinner();
         holderData.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myDialog.show();
+                getSpinner();
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -267,9 +267,10 @@ public class AdapterDepot extends RecyclerView.Adapter<AdapterDepot.HolderData> 
                 try {
                     Toast.makeText(ctx, response.body().message, Toast.LENGTH_SHORT).show();
                     myDialog.hide();
-                    Intent goInput = new Intent(ctx, MainActivity.class);
-                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_depot));
-                    ctx.startActivity(goInput);
+                    method.AutoLogout(ctx);
+//                    Intent goInput = new Intent(ctx, MainActivity.class);
+//                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_depot));
+//                    ctx.startActivity(goInput);
                 }catch (Exception e){
                     Toast.makeText(ctx, "Token Expired", Toast.LENGTH_SHORT).show();
                     method.AutoLogout(ctx);

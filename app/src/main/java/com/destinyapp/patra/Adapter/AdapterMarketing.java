@@ -92,7 +92,7 @@ public class AdapterMarketing extends RecyclerView.Adapter<AdapterMarketing.Hold
                 token = cursor.getString(6);
             }
         }
-        getSpinner();
+
         holderData.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +107,7 @@ public class AdapterMarketing extends RecyclerView.Adapter<AdapterMarketing.Hold
                     @Override
                     public void onClick(View v) {
                         myDialog.hide();
+                        getSpinner();
                         DialogEdit.show();
                         nama.setText(dm.nama_mor);
                         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -231,9 +232,10 @@ public class AdapterMarketing extends RecyclerView.Adapter<AdapterMarketing.Hold
                 try {
                     Toast.makeText(ctx, response.body().message, Toast.LENGTH_SHORT).show();
                     myDialog.hide();
-                    Intent goInput = new Intent(ctx, MainActivity.class);
-                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_marketing));
-                    ctx.startActivity(goInput);
+                    method.AutoLogout(ctx);
+//                    Intent goInput = new Intent(ctx, MainActivity.class);
+//                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_marketing));
+//                    ctx.startActivity(goInput);
                 }catch (Exception e){
                     Toast.makeText(ctx, "Token Expired", Toast.LENGTH_SHORT).show();
                     method.AutoLogout(ctx);

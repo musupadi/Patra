@@ -126,9 +126,11 @@ public class LoginActivity extends AppCompatActivity {
                     ModelSession session = new ModelSession(responseModel.data.random_unik,responseModel.data.id,responseModel.data.email,responseModel.data.username,responseModel.data.full_name,responseModel.data.avatar,responseModel.token);
                     dbHelper.saveSession(session);
                     finishAffinity();
-                    Intent goInput = new Intent(LoginActivity.this, MainActivity.class);
-                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_project));
-                    startActivity(goInput);
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(intent);
+//                    Intent goInput = new Intent(LoginActivity.this, MainActivity.class);
+//                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_project));
+//                    startActivity(goInput);
                 }else{
                     Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
                 }

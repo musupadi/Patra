@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if (EasyPermissions.hasPermissions(MainActivity.this, galleryPermissions)) {
-            Toast.makeText(this, "Permission Succes", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Permission Succes", Toast.LENGTH_SHORT).show();
         } else {
             EasyPermissions.requestPermissions(MainActivity.this, "Access for storage",
                     101, galleryPermissions);
@@ -117,9 +117,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent data = getIntent();
-        String NAVIGATE = data.getStringExtra("NAVIGATE");
-        navController.navigate(Integer.parseInt(NAVIGATE));
+//        Intent data = getIntent();
+//        String NAVIGATE = data.getStringExtra("NAVIGATE");
+//        navController.navigate(Integer.parseInt(NAVIGATE));
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         getuserData();

@@ -94,11 +94,12 @@ public class AdapterSiteSupervisor extends RecyclerView.Adapter<AdapterSiteSuper
         spinner=DialogEdit.findViewById(R.id.Spinner);
         nama=DialogEdit.findViewById(R.id.etSiteSupervisor);
         submit=DialogEdit.findViewById(R.id.btnSubmit);
-        getSpinner();
+
         holderData.nama.setText(dm.nama_ss);
         holderData.linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getSpinner();
                 myDialog.show();
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -269,9 +270,10 @@ public class AdapterSiteSupervisor extends RecyclerView.Adapter<AdapterSiteSuper
                 try {
                     Toast.makeText(ctx, response.body().message, Toast.LENGTH_SHORT).show();
                     myDialog.hide();
-                    Intent goInput = new Intent(ctx, MainActivity.class);
-                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_site_supervisor));
-                    ctx.startActivity(goInput);
+                    method.AutoLogout(ctx);
+//                    Intent goInput = new Intent(ctx, MainActivity.class);
+//                    goInput.putExtra("NAVIGATE",String.valueOf(R.id.nav_site_supervisor));
+//                    ctx.startActivity(goInput);
                 }catch (Exception e){
                     Toast.makeText(ctx, "Token Expired", Toast.LENGTH_SHORT).show();
                     method.AutoLogout(ctx);
